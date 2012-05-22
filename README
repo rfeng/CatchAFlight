@@ -1,0 +1,9 @@
+CatchAFlight
+
+This program is designed to tell you when your next flight is depending on where you want to go.
+
+Airports are stationary, but airplanes are generated randomly at certain intervals of time.
+
+"Time" is represented by the Calendar class, which takes real time and scales it.  Time passes faster in the instance of CatchAFlight.
+
+Ryan Feng
