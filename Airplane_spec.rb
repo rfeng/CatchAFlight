@@ -1,3 +1,0 @@
-require 'Airplane'
-
-describe Airplane, 
