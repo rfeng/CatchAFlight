@@ -1,3 +1,5 @@
+require 'CatchAFlight'
+
 class Airplane
 
   attr_accessor :speed, :boarding_time, :pop
@@ -16,10 +18,16 @@ class Airplane
   end
 
   def take_off
+
+    puts "Plane took off from #{@from.name} to #{@to.name}"
+
     @from.planes.delete(self)
   end
 
   def land
+
+    puts "Plane landed in #{@to.name}"
+
     @to.add(self)
     @from = @to
     @to = CatchAFlight.find_next_dest(self)
