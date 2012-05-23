@@ -1,3 +1,5 @@
+
+
 class Calendar
 
   attr_reader :day, :hour, :min, :sec
@@ -42,7 +44,7 @@ class Calendar
 
     sec = (t - @start_time).to_i
 
-    return self.new(day, hour, min, sec)
+    return Calendar.new(day, hour, min, sec)
   end
 
   def time_since_start
@@ -57,15 +59,26 @@ class Calendar
 
   def after(other_cal)
     [:day, :hour, :min, :sec].each do |i|
-      if self.send(i) > other_cal.send(i)
-        return true
+      return true if self.send(i) > other_cal.send(i)
+    end
     false
+  end
+
+  def self.subtract(cal1, cal2)
+    result_cal = Calendar.new
+    ['day', 'hour', 'min', 'sec'].each do |i|
+      result_cal.send((i + '='), (cal1.send(i) - cal2.send(i)))
+    return result_cal
   end
 
   def to_s
     str = ""
     str << "Day: " << self.day << "|"
     str << @hour << ":" << @mind << ":" << @sec.to_i
+  end
+
+  def to_sec
+    self.day * 86400 + self.hour * 3600 + self.min * 60 + self.sec
   end
 end
   
