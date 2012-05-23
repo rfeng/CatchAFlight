@@ -11,25 +11,25 @@ class Reader
   # cmds (Hash): Some methods that should be run
   #              when called by a string that can
   #              be given by user input
-  def initialize(cmds)
+  def initialize(cmds = {})
     @commands = cmds
   end
 
+  # Console method
   def get
     input = ''
-    begin
+
+    while input != 'quit'
       if input == ''
       elsif !@commands[input].nil?
-        @commands[input]
+        CatchAFlight.send(@commands[input[0]], input[1])
       else
         puts 'Improper command'
-        puts @commands
       end
 
-      input = gets.chomp
-    end while input != 'quit'
-
+      print 'CatchAFlight: '
+      input = gets.chomp.split
+    end
     puts 'Hope you enjoyed your flight!'
-
   end
 end

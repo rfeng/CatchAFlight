@@ -1,6 +1,6 @@
 require 'Airport'
 
-class CatchAFlight
+module CatchAFlight
 
   # Creates an array of Airports
   #
