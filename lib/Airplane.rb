@@ -3,7 +3,7 @@ class Airplane
   attr_accessor :speed, :boarding_time, :pop
   attr_reader :from, :to
 
-  def initialize(from, to, speed, boarding_time, pop = 0)
+  def initialize(from, to, speed, boarding_time = Time.new, pop = 0)
     @from = from
     @to = to
     @speed = speed
@@ -16,6 +16,13 @@ class Airplane
   end
 
   def take_off
+    @from.planes.delete(self)
+  end
+
+  def land
+    @to.add(self)
+    @from = @to
+    @to = CatchAFlight.find_next_dest(self)
   end
 
   # PARAMS
@@ -32,3 +39,4 @@ class Airplane
     new_y = @speed * Math::sin(angle) - w[1]
     @speed = Math::sqrt(new_x**2 + new_y**2)
   end
+end

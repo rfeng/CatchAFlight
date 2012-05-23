@@ -8,38 +8,41 @@ describe Airport do
 
   describe '#latitude' do
     it 'returns upon initialization' do
-      a.lat.should eq(1)
+      @a.lat.should eq(1)
     end
 
     it 'can be modified' do
-      a.lat = 5
-      a.lat.should eq(5)
+      @a.lat = 5
+      @a.lat.should eq(5)
     end
   end
 
   describe '#longitude' do
     it 'returns upon initialization' do
-      a = Airport.new(1,2)
-      a.long.should eq(2)
+      @a.long.should eq(2)
     end
 
     it 'can be modified' do
-      a.long = 5
-      a.long.should eq(5)
+      @a.long = 5
+      @a.long.should eq(5)
     end
   end
 
   describe '#planes' do
+    before do
+      @b_plane = @a.create_plane(@b)
+    end
+
     it 'can make an Airplane' do
-      b_plane = a.create_plane(@b)
-      a.planes.should include(b_plane)
+      @a.planes.should include(@b_plane)
     end
 
     it 'should set that plane\'s destination correctly' do
-      b_plane = a.create_plane(@b)
-      b_plane.to.should eq(@b)
+      @b_plane.to.should eq(@b)
     end
 
-    
+    it 'should make an empty plane' do
+      @b_plane.pop.should eq(0)
+    end
   end
 end

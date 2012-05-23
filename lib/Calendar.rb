@@ -31,18 +31,18 @@ class Calendar
   def current_time
     t = time_since_start
 
-    day = ((t - @start_time) / 3600).to_i
+    day = ((t - @start_time) / 86400).to_i
     t -= day * 86400
 
-    hour = ((t - @start_time) / 60).to_i
+    hour = ((t - @start_time) / 3600).to_i
     t -= hour * 3600
 
-    min = ((t - @start_time)).to_i
+    min = ((t - @start_time) * 60).to_i
     t -= min * 60
 
-    sec = t - @start_time
+    sec = (t - @start_time).to_i
 
-    self.new(day, hour, min, sec)
+    return self.new(day, hour, min, sec)
   end
 
   def time_since_start
@@ -52,7 +52,14 @@ class Calendar
       time_during = p[1] - p[0]
       total_pause += time_during
     end
-    t - total_pause
+    return t - total_pause
+  end
+
+  def after(other_cal)
+    [:day, :hour, :min, :sec].each do |i|
+      if self.send(i) > other_cal.send(i)
+        return true
+    false
   end
 
   def to_s
