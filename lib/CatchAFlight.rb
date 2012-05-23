@@ -1,13 +1,20 @@
 require 'Airport'
 
-module CatchAFlight
+class CatchAFlight
 
-  def create_map(airports = [], num_ports = 300, grid_size = [1000, 1000])
+  # Creates an array of Airports
+  #
+  # PARAMS
+  # airports (Array): 
+  # rand_options (Hash):
+  #
+  # Returns the created array
+  def create_map(airports = [], rand_options = {:num_ports => 300, :grid_size => [1000, 1000]})
     ports = []
 
     if airports.nil?
-      num_ports.times do |i|
-        lat, long = (rand * grid_size[0]).to_i, (rand * grid_size[1]).to_i
+      rand_options[:num_ports].times do |i|
+        lat, long = (rand * rand_options[:grid_size][0]).to_i, (rand * rand_options[:grid_size][1]).to_i
         ports << Airport.new(i, lat, long)
       end
     else

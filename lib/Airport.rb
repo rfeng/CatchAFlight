@@ -9,9 +9,9 @@ class Airport
   end
 
   # PARAMS
-  # dest : destination of Airplane
-  # speed : number of grids plane moves in one "hour"
-  # boarding_time : when the plane will take off
+  # dest (Airport): destination of Airplane
+  # speed (int): number of grids plane moves in one "hour"
+  # boarding_time (Time): when the plane will take off
   def create_plane(dest, speed = 1, boarding_time = Time.new)
     Airplane.new(self, dest, boarding_time)
   end

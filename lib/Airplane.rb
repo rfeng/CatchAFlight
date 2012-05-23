@@ -16,11 +16,10 @@ class Airplane
   end
 
   def take_off
-
   end
 
   # PARAMS
-  # w : wind vector to slow plane
+  # w (Array): wind vector to slow plane
   #     w should be of form [x, y]
   def apply_wind(w)
     x_dist = to.long - from.long
