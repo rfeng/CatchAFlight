@@ -68,13 +68,23 @@ class Calendar
     result_cal = Calendar.new
     ['day', 'hour', 'min', 'sec'].each do |i|
       result_cal.send((i + '='), (cal1.send(i) - cal2.send(i)))
+    end
+    return result_cal
+  end
+
+  def self.add(cal1, cal2)
+    result_cal = Calendar.new
+    ['day', 'hour', 'min', 'sec'].each do |i|
+      result_cal.send((i + '='), (cal1.send(i) + cal2.send(i)))
+    end
     return result_cal
   end
 
   def to_s
     str = ""
-    str << "Day: " << self.day << "|"
+    str << "Day: " << @day << "|"
     str << @hour << ":" << @mind << ":" << @sec.to_i
+    str
   end
 
   def to_sec

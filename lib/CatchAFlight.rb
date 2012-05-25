@@ -5,6 +5,8 @@ require 'Calendar'
 
 class CatchAFlight
 
+  attr_accessor :map, :cal
+
   def run(airports = [], options = {})
     cal = Calendar.new
 
@@ -55,7 +57,7 @@ class CatchAFlight
   #   :num_ports (int): Number of airports to generate
   #   :grid_size (Array): Array of 2 elements to be the size of the map airports are placed on
   # Returns the created array
-  def generate_map(airports = [], rand_options = {:num_ports => 300, :grid_size => [1000, 1000]})
+  def self.generate_map(airports = [], rand_options = {:num_ports => 300, :grid_size => [1000, 1000]})
     ports = []
 
     if airports.empty?
@@ -72,11 +74,68 @@ class CatchAFlight
     return ports
   end
 
-  def generate_planes(map, num_planes = 1000, min_speed = 0, max_speed = 1)
-    num_planes.times do |_|
+  def generate_planes(map, options = {:num_planes => 1000, :min_speed => 0, :max_speed => 1})
+    options[:num_planes].times do |_|
       from, to = nil, nil
       from, to = map[rand * map.length], map[rand * map.length] while from == to
-      from.create_plane(to, rand * (max_speed - min_speed) + min_speed)
+      from.create_plane(to, rand * (options[:max_speed] - options[:min_speed]) + options[:min_speed])
     end
+  end
+
+  def shortest_path(map, from, to)
+    m = 1
+    class PathNode
+      attr_accessor :id, :previous, :m
+    end
+
+    class Node
+      attr_accessor :id, :branches
+    end
+
+    nodes = []
+    map.each do |port|
+      branches = []
+      port.planes.each do |plane|
+        branches << [plane.to, plane.distance_to_travel / plane.speed]
+      end
+      nodes << Node.new(port, branches)
+    end
+
+    path_nodes = [PathNode.new(from, '_', 0)]
+    m = 0
+    dest = nil
+    while dest.nil?
+      m += 1
+      path_nodes.each do |path_node|
+        path_node.branches.each do |branch|
+          if branch[0].id != path_node.previous && path_node.m + branch[1] == m
+            path_nodes << PathNode.new(branch[0], path_node.name, m)
+          end
+        end
+      end
+
+      dest = dest_in(path_nodes, to)
+    end
+
+    path = []
+
+    begin
+      path << dest.id
+
+      dest.previous.planes.each do |plane|
+        path << plane if plane.to == dest.id
+      end
+
+      path_nodes.each do |path_node|
+        dest = path_node if dest.previous == path_node.id
+      end
+    end while dest.previous != '_'
+  end
+
+  def dest_in(path_nodes, to)
+    path_nodes.each do |path_node|
+      return path_node if path_node.id == to
+    end
+    nil
   end
 end

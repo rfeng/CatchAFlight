@@ -20,9 +20,9 @@ class Airport
   # boarding_time (Time): when the plane will take off
   #
   # Returns the created Airplane object
-  def create_plane(dest, speed = 1, boarding_time = Time.new)
+  def create_plane(dest, speed, boarding_time)
     plane = Airplane.new(self, dest, speed, boarding_time)
-    @planes << plane
+    add(plane)
     return plane
   end
 
@@ -30,4 +30,11 @@ class Airport
     @planes << plane
   end
 
+  def remove(plane)
+    @planes.delete(plane)
+  end
+
+  def to_s
+    "Airport #{@name} @(#{@lat}, #{@long})"
+  end
 end

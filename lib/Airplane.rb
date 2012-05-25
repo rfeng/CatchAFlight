@@ -1,11 +1,8 @@
-require 'CatchAFlight'
-
 class Airplane
 
-  attr_accessor :speed, :boarding_time, :pop
-  attr_reader :from, :to
+  attr_accessor :speed, :boarding_time, :pop, :from, :to
 
-  def initialize(from, to, speed, boarding_time = Time.new, pop = 0)
+  def initialize(from, to, speed, boarding_time, pop = 0)
     @from = from
     @to = to
     @speed = speed
@@ -19,18 +16,17 @@ class Airplane
 
   def take_off
 
-    puts "Plane took off from #{@from.name} to #{@to.name}"
+    puts "Plane took off from #{@from.to_s} to #{@to.to_s}"
 
-    @from.planes.delete(self)
+    @from.remove(self)
   end
 
   def land
 
-    puts "Plane landed in #{@to.name}"
+    puts "Plane landed in #{@to.to_s}"
 
     @to.add(self)
     @from = @to
-    @to = CatchAFlight.find_next_dest(self)
   end
 
   # PARAMS
@@ -46,5 +42,12 @@ class Airplane
     new_x = @speed * Math::cos(angle) - w[0]
     new_y = @speed * Math::sin(angle) - w[1]
     @speed = Math::sqrt(new_x**2 + new_y**2)
+  end
+
+  def to_s
+    output = ""
+    output << "Airplane boarding at #{@from} "
+    output << "bound for #{@to} "
+    output << "to depart at #{@boarding_time.to_s}"
   end
 end
